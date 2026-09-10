@@ -1,0 +1,26 @@
+# Environment variables & secrets
+.env
+
+# Python Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary Storage
+temp/
+sample_resume.pdf
+*.pdf
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE / Editor folders
+.vscode/
+.idea/
