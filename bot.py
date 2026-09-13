@@ -7,10 +7,12 @@ and manages per-user session state.
 
 import html
 import logging
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import os
 from pathlib import Path
 import re
 import sys
+import threading
 from typing import Any, Dict, List, Optional
 from dotenv import load_dotenv
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -1011,6 +1013,34 @@ def create_bot_application(token: str) -> Application:
     return app
 
 
+class CloudHealthCheckHandler(BaseHTTPRequestHandler):
+    """Minimal HTTP handler to satisfy Render/cloud health check probes."""
+    def do_GET(self) -> None:
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(b'{"status":"ok","app":"JobFit AI Telegram Bot"}')
+
+    def log_message(self, format: str, *args: Any) -> None:
+        # Silence access logging to keep application logs clean
+        pass
+
+
+def start_cloud_health_check() -> None:
+    """If $PORT is set by Render/Heroku/Railway, start a background HTTP health server."""
+    port_str = os.getenv("PORT")
+    if not port_str:
+        return
+    try:
+        port = int(port_str)
+        server = HTTPServer(("0.0.0.0", port), CloudHealthCheckHandler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        logger.info(f"Cloud health check HTTP probe listening on port {port}.")
+    except Exception as exc:
+        logger.warning(f"Could not start cloud health check server: {exc}")
+
+
 def main() -> None:
     """Entrypoint to validate config and start polling."""
     token = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -1021,6 +1051,9 @@ def main() -> None:
             "Please open .env and provide a valid bot token from @BotFather."
         )
         sys.exit(1)
+
+    # Start health check server if PORT environment variable is present
+    start_cloud_health_check()
 
     logger.info("Initializing JobFit AI Telegram Bot...")
     app = create_bot_application(token)
