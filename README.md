@@ -1,12 +1,15 @@
 # JobFit AI
 
+[![Deployment Status](https://img.shields.io/badge/Deployment-Live%20on%20Render%20(24%2F7)-brightgreen?style=for-the-badge&logo=render&logoColor=white)](https://t.me/hashira_Job_fit_bot)
 [![Telegram Bot](https://img.shields.io/badge/Telegram-@hashira__Job__fit__bot-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/hashira_Job_fit_bot)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Google Gemini](https://img.shields.io/badge/Google%20Gemini-3.6%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://aistudio.google.com/)
 
-> ### 🤖 Try the Live Bot Now on Telegram
+> ### 🟢 Bot is Deployed & Live 24/7 in the Cloud!
+> **JobFit AI is currently deployed and running live on Render.**  
+> Anyone can test it immediately on Telegram without installing or running any code locally:  
 > 👉 **[Click here to chat with @hashira_Job_fit_bot](https://t.me/hashira_Job_fit_bot)**  
-> *(Tap the link or search for `@hashira_Job_fit_bot` in Telegram and send `/start` to test candidate screening live!)*
+> *(Simply tap the link, press `/start`, and upload a job description & resume to test it live!)*
 
 **JobFit AI** is an intelligent, production-ready Telegram screening bot that automates candidate resume evaluation against Job Descriptions (JDs). Powered by Google Gemini (`gemini-3.6-flash`) and a deterministic mathematical scoring engine, JobFit AI extracts candidate qualifications, computes ATS (Applicant Tracking System) and Job Match scores, identifies matching and missing skills, generates personalized learning roadmaps with documentation links, and ranks multiple candidates for hiring teams.
 
