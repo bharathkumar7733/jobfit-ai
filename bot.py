@@ -972,8 +972,16 @@ async def handle_unsupported_media(update: Update, context: ContextTypes.DEFAULT
 
 
 def create_bot_application(token: str) -> Application:
-    """Builds and returns the configured Telegram Application."""
-    app = ApplicationBuilder().token(token).build()
+    """Builds and returns the configured Telegram Application with resilient network timeouts."""
+    app = (
+        ApplicationBuilder()
+        .token(token)
+        .connect_timeout(30.0)
+        .read_timeout(30.0)
+        .write_timeout(30.0)
+        .pool_timeout(30.0)
+        .build()
+    )
 
     # Register command handlers
     app.add_handler(CommandHandler("start", start_command))
@@ -1019,7 +1027,7 @@ def main() -> None:
 
     logger.info("Bot started successfully. Polling for updates...")
     try:
-        app.run_polling()
+        app.run_polling(bootstrap_retries=10, timeout=30)
     except InvalidToken:
         logger.error(
             "CRITICAL: TELEGRAM_BOT_TOKEN was rejected by the Telegram API (Invalid Token).\n"
